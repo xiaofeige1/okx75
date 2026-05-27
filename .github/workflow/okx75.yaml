@@ -3,7 +3,7 @@ name: OKX Screener
 on:
   schedule:
     # 每4小时运行一次（UTC）
-    - cron: '18 */4 * * *'
+    - cron: "18 0,4,8,12 * * *"
 
   workflow_dispatch:
 
