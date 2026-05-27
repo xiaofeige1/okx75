@@ -1,5 +1,5 @@
 {
-  "updateTime": "2026-05-27T06:32:12.263Z",
+  "updateTime": "2026-05-27T06:46:47.817Z",
   "symbols": [
     "ICP-USDT-SWAP",
     "FIL-USDT-SWAP",
@@ -7,6 +7,8 @@
     "INJ-USDT-SWAP",
     "MU-USDT-SWAP",
     "SNDK-USDT-SWAP",
-    "VIRTUAL-USDT-SWAP"
+    "AR-USDT-SWAP",
+    "VIRTUAL-USDT-SWAP",
+    "TIA-USDT-SWAP"
   ]
 }
