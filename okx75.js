@@ -22,7 +22,7 @@ const EMA_SLOW = 72
 
 const MIN_KLINE = 240
 
-const TOP_N = 50
+const TOP_N = 100
 
 const MIN_VOL_USDT = 20_000_000
 
@@ -311,6 +311,10 @@ async function runPool(items, worker, concurrency) {
 // =====================================================
 
 async function sendEmail(symbols) {
+  // 计算北京时间
+  const serverTime = new Date()
+  const beijingTime = new Date(serverTime.getTime() + 8 * 60 * 60 * 1000)
+  const timeStr = beijingTime.toISOString().replace('T', ' ').substring(0, 19)
 
   const apiKey =
     process.env.RESEND_API_KEY
@@ -326,15 +330,11 @@ async function sendEmail(symbols) {
   }
 
   const html = `
-    <h2>筛选结果</h2>
+    <p>${timeStr}</p>
 
-    <p>时间：</p>
+    <p>筛选条件: high > ema24 && ema72 && weekendhigh</p>
 
-    <pre>${new Date().toISOString()}</pre>
-
-    <p>符合 high > ema24 & ema72 & weekendhigh 的品种：</p>
-
-    <pre>${symbols.join("\n") || "无"}</pre>
+    <p>${symbols.join("\n") || "无"}</p>
   `
 
   try {
@@ -346,7 +346,7 @@ async function sendEmail(symbols) {
       {
         from: "OKX Screener <onboarding@resend.dev>",
         to: emailTo,
-        subject: `筛选结果 (${symbols.length})`,
+        subject: `筛选结果: ${symbols.length}`,
         html
       },
 
