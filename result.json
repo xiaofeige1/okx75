@@ -1,17 +1,12 @@
 {
-  "updateTime": "2026-05-27T11:50:51.627Z",
+  "updateTime": "2026-05-27T16:14:57.891Z",
   "symbols": [
-    "OKB-USDT-SWAP",
     "ICP-USDT-SWAP",
     "FIL-USDT-SWAP",
     "XPD-USDT-SWAP",
-    "INJ-USDT-SWAP",
     "MU-USDT-SWAP",
-    "SNDK-USDT-SWAP",
-    "AR-USDT-SWAP",
-    "RENDER-USDT-SWAP",
-    "VIRTUAL-USDT-SWAP",
-    "SOXL-USDT-SWAP",
-    "INTC-USDT-SWAP"
+    "WLD-USDT-SWAP",
+    "INJ-USDT-SWAP",
+    "AR-USDT-SWAP"
   ]
 }
