@@ -333,10 +333,6 @@ async function sendEmail(symbols) {
 
     <p>${timeStr}</p>
 
-    <p>
-      筛选条件: high > ema24 && ema72 && weekendhigh
-    </p>
-
     <p>${symbols.join("<br>") || "无"}</p>
   `
 
@@ -347,7 +343,7 @@ async function sendEmail(symbols) {
       "https://api.resend.com/emails",
 
       {
-        from: "okx75 <onboarding@resend.dev>",
+        from: "okx75",
         to: emailTo,
         subject: `筛选结果: ${symbols.length}`,
         html
