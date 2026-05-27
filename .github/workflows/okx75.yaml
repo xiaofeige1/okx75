@@ -1,8 +1,7 @@
-name: OKX Screener
+name: okx75 Screener
 
 on:
   schedule:
-    # 每4小时运行一次（UTC）
     - cron: "18 0,4,8,12 * * *"
 
   workflow_dispatch:
@@ -30,7 +29,10 @@ jobs:
         run: npm install
 
       - name: Run Screener
-        run: node okx75.js
+        run: node index.js
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
 
       - name: Commit result
         run: |
