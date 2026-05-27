@@ -22,7 +22,7 @@ const EMA_SLOW = 72
 
 const MIN_KLINE = 240
 
-const TOP_N = 50
+const TOP_N = 100
 
 const MIN_VOL_USDT = 20_000_000
 
@@ -343,7 +343,7 @@ async function sendEmail(symbols) {
       "https://api.resend.com/emails",
 
       {
-        from: "okx75",
+        from: "okx75 <onboarding@resend.dev>",
         to: emailTo,
         subject: `筛选结果: ${symbols.length}`,
         html
