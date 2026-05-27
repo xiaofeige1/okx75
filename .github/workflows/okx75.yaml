@@ -1,0 +1,45 @@
+name: OKX Screener
+
+on:
+  schedule:
+    # 每4小时运行一次（UTC）
+    - cron: "18 0,4,8,12 * * *"
+
+  workflow_dispatch:
+
+jobs:
+
+  run:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm install
+
+      - name: Run Screener
+        run: node okx75.js
+
+      - name: Commit result
+        run: |
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git add result.json
+
+          git diff --cached --quiet || git commit -m "update result"
+
+          git push
