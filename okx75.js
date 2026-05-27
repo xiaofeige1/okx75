@@ -22,7 +22,7 @@ const EMA_SLOW = 72
 
 const MIN_KLINE = 240
 
-const TOP_N = 100
+const TOP_N = 50
 
 const MIN_VOL_USDT = 20_000_000
 
@@ -330,11 +330,14 @@ async function sendEmail(symbols) {
   }
 
   const html = `
+
     <p>${timeStr}</p>
 
-    <p>筛选条件: high > ema24 && ema72 && weekendhigh</p>
+    <p>
+      筛选条件: high > ema24 && ema72 && weekendhigh
+    </p>
 
-    <p>${symbols.join("\n") || "无"}</p>
+    <p>${symbols.join("<br>") || "无"}</p>
   `
 
   try {
@@ -344,7 +347,7 @@ async function sendEmail(symbols) {
       "https://api.resend.com/emails",
 
       {
-        from: "OKX Screener <onboarding@resend.dev>",
+        from: "okx75 <onboarding@resend.dev>",
         to: emailTo,
         subject: `筛选结果: ${symbols.length}`,
         html
