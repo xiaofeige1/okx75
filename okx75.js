@@ -1,16 +1,11 @@
 /**
  * OKX 永续合约筛选器
  *
- * 条件：
+ * 功能：
  * 1. 当前K线最高价 > EMA24 && EMA72
  * 2. 当前K线最高价 > 最近完整周末最高价
- *
- * 输出：
- * result.json
- * {
- *   "updateTime": "...",
- *   "symbols": [...]
- * }
+ * 3. 保存 result.json
+ * 4. 邮件发送结果
  */
 
 import axios from "axios"
@@ -48,7 +43,7 @@ function sleep(ms) {
 }
 
 // =====================================================
-// axios 请求
+// fetch json
 // =====================================================
 
 async function fetchJson(url, retry = MAX_RETRY) {
@@ -62,8 +57,7 @@ async function fetchJson(url, retry = MAX_RETRY) {
         timeout: FETCH_TIMEOUT,
 
         headers: {
-          "User-Agent":
-            "Mozilla/5.0",
+          "User-Agent": "Mozilla/5.0",
           "Accept": "application/json",
           "Cache-Control": "no-cache"
         }
@@ -83,18 +77,15 @@ async function fetchJson(url, retry = MAX_RETRY) {
 
         err.message.includes("429") ||
         err.message.includes("socket hang up") ||
-        err.message.includes("TLS") ||
-        err.message.includes("fetch failed")
+        err.message.includes("TLS")
 
       if (!retryable || i === retry - 1) {
         throw err
       }
 
-      const delay = 1000 * (i + 1)
-
       console.log(`🔄 retry ${i + 1}`)
 
-      await sleep(delay)
+      await sleep(1000 * (i + 1))
     }
   }
 }
@@ -132,7 +123,6 @@ function getLastWeekendHighFrom1H(klineData) {
 
     const weekday = date.getUTCDay()
 
-    // 只处理周六/周日
     if (weekday !== 6 && weekday !== 0) {
       continue
     }
@@ -176,7 +166,6 @@ function getLastWeekendHighFrom1H(klineData) {
     }
   }
 
-  // 找最近完整周末
   const keys =
     [...weekendMap.keys()]
       .sort()
@@ -226,9 +215,6 @@ async function processSymbol(t) {
     const closes = new Array(len)
     const highs = new Array(len)
 
-    // OKX 返回最新在前
-    // 转换为旧 -> 新
-
     for (let i = 0; i < len; i++) {
 
       const d = kline.data[len - 1 - i]
@@ -237,18 +223,15 @@ async function processSymbol(t) {
       highs[i] = +d[2]
     }
 
-    // EMA
     const ema24 =
       calcLastEMA(closes, EMA_FAST)
 
     const ema72 =
       calcLastEMA(closes, EMA_SLOW)
 
-    // 当前K线最高价
     const currentHigh =
       highs[len - 1]
 
-    // EMA 条件
     if (
       currentHigh <= ema24 ||
       currentHigh <= ema72
@@ -256,7 +239,6 @@ async function processSymbol(t) {
       return null
     }
 
-    // 最近完整周末最高价
     const weekendHigh =
       getLastWeekendHighFrom1H(kline.data)
 
@@ -264,7 +246,6 @@ async function processSymbol(t) {
       return null
     }
 
-    // 当前K线最高价 > 周末最高价
     if (currentHigh <= weekendHigh) {
       return null
     }
@@ -311,7 +292,6 @@ async function runPool(items, worker, concurrency) {
         console.log(`✅ ${result.symbol}`)
       }
 
-      // 防429
       await sleep(500)
     }
   }
@@ -327,26 +307,84 @@ async function runPool(items, worker, concurrency) {
 }
 
 // =====================================================
+// 发送邮件
+// =====================================================
+
+async function sendEmail(symbols) {
+
+  const apiKey =
+    process.env.RESEND_API_KEY
+
+  const emailTo =
+    process.env.EMAIL_TO
+
+  if (!apiKey || !emailTo) {
+
+    console.log("未配置邮件环境变量")
+
+    return
+  }
+
+  const html = `
+    <h2>筛选结果</h2>
+
+    <p>时间：</p>
+
+    <pre>${new Date().toISOString()}</pre>
+
+    <p>符合 high > ema24 & ema72 & weekendhigh 的品种：</p>
+
+    <pre>${symbols.join("\n") || "无"}</pre>
+  `
+
+  try {
+
+    const res = await axios.post(
+
+      "https://api.resend.com/emails",
+
+      {
+        from: "OKX Screener <onboarding@resend.dev>",
+        to: emailTo,
+        subject: `筛选结果 (${symbols.length})`,
+        html
+      },
+
+      {
+        headers: {
+          Authorization:
+            `Bearer ${apiKey}`,
+
+          "Content-Type":
+            "application/json"
+        }
+      }
+    )
+
+    console.log("✅ 邮件发送成功")
+
+    console.log(res.data)
+
+  } catch (err) {
+
+    console.log("❌ 邮件发送失败")
+
+    console.log(err.response?.data || err.message)
+  }
+}
+
+// =====================================================
 // 主逻辑
 // =====================================================
 
 async function main() {
 
-  console.log("------------------------------------------------")
-  console.log(new Date().toISOString())
   console.log("开始筛选...")
-  console.log("------------------------------------------------")
 
-  // 获取成交额排行
   const tickersRes = await fetchJson(
     "https://www.okx.com/api/v5/market/tickers?instType=SWAP"
   )
 
-  if (!tickersRes.data) {
-    throw new Error("获取 ticker 失败")
-  }
-
-  // 按成交额排序
   const top = tickersRes.data
 
     .filter(t =>
@@ -371,59 +409,42 @@ async function main() {
 
   console.log(`币种数量: ${top.length}`)
 
-  // 开始筛选
   const results = await runPool(
     top,
     processSymbol,
     CONCURRENCY
   )
 
-  // 按成交额排序
   results.sort((a, b) =>
     b.volUsdt - a.volUsdt
   )
 
-  // 输出 JSON
+  const symbols =
+    results.map(r => r.symbol)
+
+  // 保存 JSON
   const output = {
 
     updateTime:
       new Date().toISOString(),
 
-    symbols:
-      results.map(r => r.symbol)
+    symbols
   }
 
-  // 写入 result.json
   fs.writeFileSync(
     "result.json",
     JSON.stringify(output, null, 2)
   )
 
-  console.log("\n==============================")
-
-  if (results.length === 0) {
-
-    console.log("无符合条件币种")
-
-  } else {
-
-    for (const r of results) {
-      console.log(r.symbol)
-    }
-  }
-
-  console.log("==============================")
-
   console.log("result.json 已更新")
-}
 
-// =====================================================
-// 启动
-// =====================================================
+  // 发邮件
+  await sendEmail(symbols)
+}
 
 main().catch(err => {
 
-  console.error("程序异常:", err)
+  console.error(err)
 
   process.exit(1)
 })
