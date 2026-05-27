@@ -3,7 +3,7 @@ name: OKX Screener
 on:
   schedule:
     # 每4小时运行一次（UTC）
-    - cron: '17 */4 * * *'
+    - cron: '18 */4 * * *'
 
   workflow_dispatch:
 
@@ -30,7 +30,7 @@ jobs:
         run: npm install
 
       - name: Run Screener
-        run: node index.js
+        run: node okx75.js
 
       - name: Commit result
         run: |
