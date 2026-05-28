@@ -1,7 +1,10 @@
 {
-  "updateTime": "2026-05-28T11:53:25.835Z",
+  "updateTime": "2026-05-28T16:35:56.694Z",
   "symbols": [
+    "ICP-USDT-SWAP",
+    "OKB-USDT-SWAP",
     "MU-USDT-SWAP",
-    "SNDK-USDT-SWAP"
+    "SNDK-USDT-SWAP",
+    "SOXL-USDT-SWAP"
   ]
 }
