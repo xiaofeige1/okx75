@@ -1,12 +1,13 @@
 {
-  "updateTime": "2026-05-29T04:46:24.959Z",
+  "updateTime": "2026-05-29T11:42:57.533Z",
   "symbols": [
-    "ICP-USDT-SWAP",
     "OKB-USDT-SWAP",
+    "XPD-USDT-SWAP",
     "INJ-USDT-SWAP",
     "MU-USDT-SWAP",
     "AR-USDT-SWAP",
     "SNDK-USDT-SWAP",
-    "ALLO-USDT-SWAP"
+    "ALLO-USDT-SWAP",
+    "LAB-USDT-SWAP"
   ]
 }
