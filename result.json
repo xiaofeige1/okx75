@@ -1,14 +1,15 @@
 {
-  "updateTime": "2026-05-29T16:11:20.835Z",
+  "updateTime": "2026-05-30T04:29:29.823Z",
   "symbols": [
     "HYPE-USDT-SWAP",
     "ICP-USDT-SWAP",
-    "OKB-USDT-SWAP",
     "INJ-USDT-SWAP",
-    "AR-USDT-SWAP",
     "MU-USDT-SWAP",
-    "ALLO-USDT-SWAP",
+    "AR-USDT-SWAP",
+    "AXS-USDT-SWAP",
+    "LAB-USDT-SWAP",
     "SNDK-USDT-SWAP",
-    "LAB-USDT-SWAP"
+    "ALLO-USDT-SWAP",
+    "APE-USDT-SWAP"
   ]
 }
