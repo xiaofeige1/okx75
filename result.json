@@ -1,4 +1,19 @@
 {
-  "updateTime": "2026-05-31T14:13:56.649Z",
-  "symbols": []
+  "updateTime": "2026-06-01T05:19:37.143Z",
+  "symbols": [
+    "HYPE-USDT-SWAP",
+    "XAG-USDT-SWAP",
+    "YFI-USDT-SWAP",
+    "ICP-USDT-SWAP",
+    "XPT-USDT-SWAP",
+    "WLD-USDT-SWAP",
+    "XPD-USDT-SWAP",
+    "ORDI-USDT-SWAP",
+    "LAB-USDT-SWAP",
+    "TON-USDT-SWAP",
+    "MU-USDT-SWAP",
+    "APE-USDT-SWAP",
+    "BERA-USDT-SWAP",
+    "IP-USDT-SWAP"
+  ]
 }
