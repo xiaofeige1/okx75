@@ -1,24 +1,20 @@
 {
-  "updateTime": "2026-06-02T16:58:41.136Z",
+  "updateTime": "2026-06-03T05:20:53.811Z",
   "symbols": [
     "ZEC-USDT-SWAP",
+    "HYPE-USDT-SWAP",
     "ICP-USDT-SWAP",
-    "XAG-USDT-SWAP",
     "BZ-USDT-SWAP",
     "CL-USDT-SWAP",
-    "XPT-USDT-SWAP",
     "WLD-USDT-SWAP",
-    "XPD-USDT-SWAP",
-    "ORDI-USDT-SWAP",
-    "MU-USDT-SWAP",
-    "LAB-USDT-SWAP",
     "MRVL-USDT-SWAP",
-    "SNDK-USDT-SWAP",
-    "APE-USDT-SWAP",
-    "NVDA-USDT-SWAP",
-    "JTO-USDT-SWAP",
+    "MU-USDT-SWAP",
     "LIT-USDT-SWAP",
+    "TON-USDT-SWAP",
+    "APE-USDT-SWAP",
+    "JTO-USDT-SWAP",
+    "RENDER-USDT-SWAP",
     "BIO-USDT-SWAP",
-    "ORCL-USDT-SWAP"
+    "NEAR-USDT-SWAP"
   ]
 }
