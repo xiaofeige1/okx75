@@ -1,14 +1,7 @@
 {
-  "updateTime": "2026-06-04T05:12:39.111Z",
+  "updateTime": "2026-06-04T11:27:08.412Z",
   "symbols": [
-    "HYPE-USDT-SWAP",
-    "CL-USDT-SWAP",
-    "WLD-USDT-SWAP",
-    "LIT-USDT-SWAP",
-    "SNDK-USDT-SWAP",
     "LAB-USDT-SWAP",
-    "JTO-USDT-SWAP",
-    "OPN-USDT-SWAP",
-    "AMD-USDT-SWAP"
+    "OPN-USDT-SWAP"
   ]
 }
