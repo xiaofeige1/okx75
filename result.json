@@ -1,7 +1,9 @@
 {
-  "updateTime": "2026-06-05T04:50:10.604Z",
+  "updateTime": "2026-06-05T11:37:59.243Z",
   "symbols": [
+    "CL-USDT-SWAP",
+    "WLD-USDT-SWAP",
     "MRVL-USDT-SWAP",
-    "OPN-USDT-SWAP"
+    "LIT-USDT-SWAP"
   ]
 }
